@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>生活操作系统 · 数字文具房</title>
+  <!-- 字体与图标库 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/css/icons.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #F9F9F6;
+      color: #2C2C2C;
+      font-family: 'Noto Serif SC', 'Source Han Serif', serif;
+      line-height: 1.8;
+      font-size: 16px;
+      padding: 0 24px 60px;
+    }
+
+    /* 字体回退 */
+    h1, h2, h3, h4, .nav, .card-title, .btn, .tag, .meta, .section-header, .footer {
+      font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+    }
+
+    /* 容器 */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* 导航栏 */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #EBEBE4;
+      position: sticky;
+      top: 0;
+      background-color: rgba(249, 249, 246, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    .logo {
+      font-weight: 500;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      color: #2C2C2C;
+      text-decoration: none;
+      background: #D97742;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 24px;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #2C2C2C;
+      font-size: 1rem;
+      font-weight: 400;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .nav-links a.active {
+      border-bottom-color: #D97742;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      border-bottom-color: #D97742;
+    }
+
+    .search-icon {
+      color: #5B7B7A;
+      font-size: 1.4rem;
+      cursor: default;
+    }
+
+    /* 问候区域 */
+    .hero {
+      margin: 32px 0 48px;
+      padding: 24px 32px;
+      background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="200" fill="%23f9f9f6"/><path d="M0 100 L1200 100" stroke="%23EBEBE4" stroke-width="1" stroke-dasharray="4 8" opacity="0.5"/></svg>');
+      background-size: cover;
+      border-radius: 24px;
+    }
+
+    .greeting {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: #2C2C2C;
+    }
+
+    .greeting-sub {
+      font-size: 1rem;
+      color: #5B7B7A;
+      margin-bottom: 24px;
+      font-family: 'Noto Serif SC', serif;
+      font-style: italic;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: #D97742;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 24px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(217, 119, 66, 0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: #c56836;
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px rgba(217, 119, 66, 0.15);
+    }
+
+    /* 三栏卡片 */
+    .triple-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .info-card {
+      background: #FFFFFF;
+      border: 1px solid #EBEBE4;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      transition: box-shadow 0.2s;
+    }
+
+    .info-card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #5B7B7A;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .thinking-question {
+      font-size: 1.3rem;
+      font-style: italic;
+      color: #2C2C2C;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    .card-link {
+      color: #D97742;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tool-list {
+      list-style: none;
+    }
+    .tool-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #F0F0EA;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tool-list li:last-child {
+      border-bottom: none;
+    }
+    .tool-list a {
+      text-decoration: none;
+      color: #2C2C2C;
+    }
+    .badge {
+      background: #EBEBE4;
+      color: #5B7B7A;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      margin-left: 8px;
+    }
+
+    /* 横向滑动区 */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: #2C2C2C;
+    }
+    .view-all {
+      color: #5B7B7A;
+      text-decoration: none;
+    }
+
+    .horizontal-scroll {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 48px;
+    }
+
+    .horizontal-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+    .horizontal-scroll::-webkit-scrollbar-thumb {
+      background: #D97742;
+      border-radius: 4px;
+    }
+
+    .template-card {
+      flex: 0 0 280px;
+      scroll-snap-align: start;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #EBEBE4;
+      padding: 16px;
+      transition: transform 0.2s;
+    }
+    .template-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.04);
+    }
+
+    .template-img {
+      width: 100%;
+      height: 160px;
+      background: #F3F2ED;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5B7B7A;
+      font-size: 0.9rem;
+      border: 1px dashed #D1CFC4;
+    }
+
+    .template-title {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .template-desc {
+      font-size: 0.85rem;
+      color: #5B7B7A;
+      margin-bottom: 16px;
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    .template-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .download-btn {
+      background: none;
+      border: 1.5px solid #D97742;
+      color: #D97742;
+      padding: 6px 16px;
+      border-radius: 24px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .download-btn:hover {
+      background: #D97742;
+      color: white;
+    }
+
+    /* 抽屉模拟（点击下载按钮时显示，此处为静态展示） */
+    .drawer-demo {
+      margin-top: 24px;
+      background: #FFFFFF;
+      border: 1px solid #EBEBE4;
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: inline-block;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    }
+    .drawer-title {
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .code-block {
+      background: #F3F2ED;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-family: 'Inter', monospace;
+      font-size: 1.4rem;
+      letter-spacing: 6px;
+      color: #2C2C2C;
+      display: inline-block;
+      margin-right: 16px;
+    }
+
+    /* 思考卡片详情页模拟（一栏） */
+    .thinking-detail {
+      background: #FCFAF2;
+      border-radius: 24px;
+      padding: 32px;
+      margin: 48px 0;
+      border: 1px solid #EBE9DD;
+    }
+
+    .footer {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid #EBEBE4;
+      color: #5B7B7A;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    /* 工具类 */
+    .mt-4 { margin-top: 24px; }
+    .text-accent { color: #D97742; }
+    i { margin-right: 4px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- 导航栏 -->
+  <header class="navbar">
+    <a href="#" class="logo">📘 生活OS</a>
+    <div class="nav-links">
+      <a href="#" class="active">📋 手帐铺子</a>
+      <a href="#">🧮 Excel工坊</a>
+      <a href="#">🧠 思索引擎</a>
+      <a href="#">📝 操作日志</a>
+      <span class="search-icon"><i class="ph-magnifying-glass"></i></span>
+    </div>
+  </header>
+
+  <!-- 问候区 + 大按钮 -->
+  <section class="hero">
+    <div class="greeting" id="greetingText">早安，</div>
+    <div class="greeting-sub">这里是你的生活操作系统终端。书架不整理就会乱，大脑也是。</div>
+    <a href="#" class="btn-primary" id="randomThinkBtn"><i class="ph-lightbulb"></i> 开始整理今天的思绪</a>
+  </section>
+
+  <!-- 三栏信息卡片区 (控制台仪表盘) -->
+  <div class="triple-grid">
+    <!-- 卡片1: 今日思考引导 -->
+    <div class="info-card">
+      <div class="card-label"><i class="ph-brain"></i> 今日思考引导胶囊</div>
+      <div class="thinking-question">“反事实思维：如果下周你必须卧床一周，现在这三天你要优先做什么？”</div>
+      <a href="#" class="card-link">点击展开卡片 <i class="ph-arrow-right"></i></a>
+    </div>
+    <!-- 卡片2: 本周精选工具 -->
+    <div class="info-card">
+      <div class="card-label"><i class="ph-wrench"></i> 本周精选工具</div>
+      <ul class="tool-list">
+        <li><i class="ph-file-arrow-down" style="color:#D97742;"></i> <a href="#">个人碳账户 2.0 <span class="badge">Excel</span></a></li>
+        <li><i class="ph-file-arrow-down" style="color:#D97742;"></i> <a href="#">周间清醒本 PDF <span class="badge">打印版</span></a></li>
+        <li><i class="ph-file-arrow-down" style="color:#D97742;"></i> <a href="#">睡前脑内卸货清单</a></li>
+      </ul>
+      <a href="#" class="card-link mt-4" style="margin-top:16px;">浏览全部工具 <i class="ph-arrow-right"></i></a>
+    </div>
+    <!-- 卡片3: 刚刚更新的笔记 -->
+    <div class="info-card">
+      <div class="card-label"><i class="ph-note-pencil"></i> 刚刚更新的笔记</div>
+      <ul class="tool-list">
+        <li><i class="ph-book-open"></i> 《别再做摘抄了，试试“歪解式读书笔记”》</li>
+        <li><i class="ph-chart-bar"></i> 我用这张表发现周三下午效率最差</li>
+        <li><i class="ph-moon"></i> 极简手帐：只用3分钟关掉大脑投影仪</li>
+      </ul>
+      <a href="#" class="card-link mt-4" style="margin-top:16px;">查看更多笔记 <i class="ph-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <!-- 热门模板横向滑动区 -->
+  <div class="section-header">
+    <h2 class="section-title">📌 热门模板推荐</h2>
+    <a href="#" class="view-all">查看全部 <i class="ph-arrow-right"></i></a>
+  </div>
+  <div class="horizontal-scroll">
+    <!-- 卡片 1 -->
+    <div class="template-card">
+      <div class="template-img"><i class="ph-image" style="font-size:2rem;"></i> 内页预览</div>
+      <div class="template-title">周间清醒本</div>
+      <div class="template-desc">左边时间轴，右边能量曲线。追踪精力低谷。</div>
+      <div class="template-footer">
+        <span class="tag" style="color:#5B7B7A; font-size:0.8rem;"><i class="ph-tag"></i> 复盘·精力</span>
+        <a href="#" class="download-btn" onclick="showDrawerDemo(event)">获取模板</a>
+      </div>
+    </div>
+    <!-- 卡片 2 -->
+    <div class="template-card">
+      <div class="template-img"><i class="ph-file-text" style="font-size:2rem;"></i> 表格缩略图</div>
+      <div class="template-title">个人碳账户</div>
+      <div class="template-desc">自动归类餐饮/交通，超支变红结余变绿。</div>
+      <div class="template-footer">
+        <span class="tag" style="color:#5B7B7A;"><i class="ph-tag"></i> 记账·Excel</span>
+        <a href="#" class="download-btn" onclick="showDrawerDemo(event)">获取模板</a>
+      </div>
+    </div>
+    <!-- 卡片 3 -->
+    <div class="template-card">
+      <div class="template-img"><i class="ph-bookmarks" style="font-size:2rem;"></i> 阅读消化卡</div>
+      <div class="template-title">阅读消化记录卡</div>
+      <div class="template-desc">金句·歪解·行动，读完不忘记。</div>
+      <div class="template-footer">
+        <span class="tag" style="color:#5B7B7A;"><i class="ph-tag"></i> 读书·Notion</span>
+        <a href="#" class="download-btn" onclick="showDrawerDemo(event)">获取模板</a>
+      </div>
+    </div>
+    <!-- 卡片 4 -->
+    <div class="template-card">
+      <div class="template-img"><i class="ph-calendar-blank" style="font-size:2rem;"></i> 甘特图</div>
+      <div class="template-title">项目甘特图(生活版)</div>
+      <div class="template-desc">装修/旅行规划，进度一目了然。</div>
+      <div class="template-footer">
+        <span class="tag" style="color:#5B7B7A;"><i class="ph-tag"></i> 规划·Excel</span>
+        <a href="#" class="download-btn" onclick="showDrawerDemo(event)">获取模板</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模拟下载抽屉 (演示交互，平时隐藏) -->
+  <div id="drawer" class="drawer-demo" style="display: none;">
+    <div class="drawer-title"><i class="ph-package"></i> 模板提取 · 生活操作系统</div>
+    <div>
+      <span class="code-block">8 4 2 6 9 1</span>
+      <span style="color:#5B7B7A;"><i class="ph-qr-code"></i> 网盘二维码</span>
+    </div>
+    <p style="margin-top: 16px; color: #5B7B7A; font-size:0.9rem;">📱 手机扫码保存到网盘，电脑打开链接输入提取码。</p>
+    <p style="margin-top: 10px;"><a href="#" style="color:#D97742; text-decoration:none;">📌 下载后不知道怎么填？查看这份表的示范数据与心法 →</a></p>
+    <button onclick="document.getElementById('drawer').style.display='none'" style="background:none;border:none;color:#5B7B7A; margin-top:12px; cursor:pointer;">关闭</button>
+  </div>
+
+  <!-- 思考卡片详情模拟（思索引擎样板） -->
+  <div class="thinking-detail">
+    <div style="display:flex; gap: 32px; flex-wrap: wrap;">
+      <div style="flex:2; min-width: 280px;">
+        <div style="font-size:1.8rem; font-style:italic; margin-bottom: 24px; color:#2C2C2C;">“反事实思维”</div>
+        <p style="margin-bottom: 20px;"><strong>引导问题：</strong>如果下周你必须卧床一周，现在这三天你要优先做什么？</p>
+        <div style="background: #FFFFFF; padding: 20px; border-radius: 16px; margin: 20px 0;">
+          <div style="color:#5B7B7A; margin-bottom:8px;">🔄 视角切换</div>
+          <p>如果这件事发生在5年后，它还重要吗？</p>
+        </div>
+        <div>
+          <div style="color:#5B7B7A; margin-bottom:8px;">✅ 微行动清单</div>
+          <ul style="list-style-type: none;">
+            <li><i class="ph-check-square" style="color:#D97742;"></i> 在日程表上划掉一件可有可无的事</li>
+            <li><i class="ph-check-square" style="color:#D97742;"></i> 练习说一次“我想想再回复你”</li>
+          </ul>
+        </div>
+      </div>
+      <div style="flex:1; background: #FFFFFF; border-radius: 20px; padding: 24px; border:1px solid #EBEBE4;">
+        <div class="card-label"><i class="ph-paperclip"></i> 配套执行工具</div>
+        <p style="margin: 12px 0;">📋 风险防御检查表.xlsx</p>
+        <a href="#" class="btn-primary" style="padding:8px 18px; font-size:1rem;" onclick="showDrawerDemo(event)">获取配套工具</a>
+        <p style="margin-top: 20px; font-size:0.9rem; color:#5B7B7A;">搭配《为什么我要设计这张表》思路阅读</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>📖 数字文具房 · 构建清醒的生活秩序</p>
+    <p style="margin-top: 12px; font-size:0.8rem;">© 2026 生活操作系统 | 关于 · RSS · 使用指南</p>
+  </footer>
+</div>
+
+<script>
+  // 根据时间显示问候语
+  function setGreeting() {
+    const hour = new Date().getHours();
+    const greetEl = document.getElementById('greetingText');
+    let prefix = '';
+    if (hour >= 5 && hour < 11) prefix = '早安，';
+    else if (hour >= 11 && hour < 18) prefix = '午安，';
+    else prefix = '晚安，';
+    greetEl.innerHTML = prefix;
+  }
+  setGreeting();
+
+  // 模拟下载抽屉 (演示)
+  function showDrawerDemo(e) {
+    e.preventDefault();
+    document.getElementById('drawer').style.display = 'block';
+    // 滚动到抽屉可见
+    document.getElementById('drawer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // 随机思考按钮演示
+  document.getElementById('randomThinkBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('✨ 随机打开一张思考卡片：\n“物品退役仪式卡：找出一件你这周没用过但没扔的东西...”');
+  });
+
+  // 让卡片下载按钮也都调用抽屉
+  document.querySelectorAll('.download-btn').forEach(btn => {
+    btn.addEventListener('click', showDrawerDemo);
+  });
+</script>
+</body>
+</html>
